@@ -1,0 +1,109 @@
+<html>
+<head>
+	{% if title %}
+	<title>{{ title }}</title>
+    {% else %}
+	 <title>Welcome</title>
+    {% endif %}
+</head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script>
+	n=0;
+	$(function() {
+		$("#form_status_added").click(function () {
+			n=n+1;	
+			$("<div class='param'><input type='text' name='Resoursename' placeholder='Введите название'> </div> " ).insertBefore("#form_status_added");
+			$("<div class='param2'><input type='text' name='Resourseurl' placeholder='Введите адрес'> </div>" ).insertBefore("#form_status_added1");
+		})
+		$("#form_status_addedK").click(function () {
+			$("<div class='paramK'><input type='text' name='Competitorname' placeholder='Введите название'> </div> " ).insertBefore("#form_status_addedK");
+			$("<div class='paramK2'><input type='text' name='Competitorurl' placeholder='Введите адрес'> </div>" ).insertBefore("#form_status_addedK2");
+		})
+		$("#form_status_addedf").click(function () {
+			$("<div class='paramf'><input type='text' name='Keyphrases'> </div> " ).insertBefore("#form_status_addedf");
+		})
+	 });
+</script>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='stt1.css')}}">
+<meta charset="utf-8">
+<header> <h1> Создание учётной записи </h1></header>
+<fieldset>
+<form action="/registerr" method="post">
+<table>
+<tr><td width="25%"> 
+	Название компании <br>
+	<input name="Name" type="text"  required><br><br>
+</td>
+<td width="25%"></td>
+<td width="50%"><p>Введите название компании.</p></td></tr>
+<tr><td> 
+	Сайт<br>
+	<input  name="URL" type="text" required><br><br> 
+</td>
+<td></td>
+<td> <p id="2">Укажите адрес сайта компании.</p></td></tr>
+<tr><td > Ключевые фразы <br> 
+	<div class="paramF">
+	<input type="text" name="Keyphrases" >
+	</div>
+	<input type="button" valign="left" value="Добавить" id="form_status_addedf">
+</td>
+<td></td>
+<td valign="top"> <p id="3" > Введите название бренда, компании, продукта и т.д. Поиск упоминаний будет происходить по данным фразам.</p></td></tr>
+<tr><td> 
+	Предметная область <br>
+	<select size="1" id="q11" name="Subject">
+		<option> Выберите предметную область </option>
+		<option>Авиакомпания</option>
+		<option>Недвижимость</option>
+		<option>Ресторан</option>
+		<option>Сеть магазинов</option></td>
+		</select> 
+ </td>
+<td>
+</td>
+<td> <p> Выберите предметную область, к которой относится коммпания.</p></td></tr>
+<tr><td>
+ <br>Дополнительные источники 
+	<div class="param">
+	<input type="text" name="Resoursename" placeholder="Введите название" >
+	</div>
+	<input type="button" valign="left" value="Добавить" id="form_status_added">
+</td>
+<td valign="top">
+<br><br>
+	<div class="param2">
+	<input type="text" valign="top" name="Resourseurl" placeholder="Введите адрес"> 
+	</div> 
+	<p id="form_status_added1"></p>
+</td>
+<td valign="top" id="2"> <br><p>Укажите адреса и названия тематических порталов, лент, блогов и других источников.</p>
+</td></tr>	
+<tr><td>
+	Основные конкуренты
+	<div class="paramK">
+	<input type="text" name="Competitorname" placeholder="Введите название" >
+	</div>
+	<input valign="left" type="button" value="Добавить" id="form_status_addedK"> 
+</td>
+<td valign="top">
+<br>
+	<div class="paramK2">
+	<input type="text" name="Competitorurl" placeholder="Введите адрес"> 
+	</div> 
+	<p id="form_status_addedK2"></p>
+</td>
+<td valign="top" > <p id="1"><br> Укажите адреса и названия основных конкурентах.</p></td></tr>
+</table>
+</fieldset>
+<table>
+<tr><td>
+<button type="submit">Отправить</button> 
+</td>
+<td>
+</td> 
+<td></td></tr>
+</form>
+</table>
+</body>
+</html>
