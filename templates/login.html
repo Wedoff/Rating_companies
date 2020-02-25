@@ -1,0 +1,22 @@
+<!-- extends устанавливает ссылку наследования между шаблонами  -->
+<html>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style.css')}}">
+<article>
+<header> <h1> Авторизация </h1></header>
+	<table align="center">
+	<form name="forma2" id="form" method="post" action="/log">
+			<tr>
+				<td>Логин(mail):</td>
+				<td><input name="user" size="25" style="width:100%;" type="email" required  autofocus> </td>
+			</tr>
+			<tr>
+				<td>Пароль:</td>
+				<td><input name="pass" size="25" style="width:100%;" required type="password"	></td>
+			</tr>
+			<tr><td></td><td><button onclick="check2()";"type="submit" style="width:100%;" > Вход </button></td></tr>
+	</form>
+			<tr><td></td><td><form id="form" action="/register" >
+					<button id="but" type="submit"> Зарегистрироваться </button></form></td></tr>
+	</table>
+</article>
+</html>

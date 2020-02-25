@@ -1,0 +1,56 @@
+ {% block content %}
+ Пользователи
+ <table>
+ {% for user in users %}
+            <tr>
+				<td>{{ user.UserID }}</td>
+				<td>{{ user.Email }}</td>
+				<td>{{ user.Nubmer }}</td>
+            </tr>
+			{% endfor %}
+</table>
+Компании
+ <table>
+ {% for company in companys %}
+            <tr>
+				<td>{{ company.CompanyID }}</td>
+				<td>{{ company.UserID }}</td>
+				<td>{{ company.Name }}</td>
+				<td>{{ company.URL }}</td>
+				<td>{{ company.Subject }}</td>
+            </tr>
+			{% endfor %}
+</table>
+Дополнительные источники
+ <table>
+ {% for resourse in resourses %}
+            <tr>
+				<td>{{ resourse.ResourseID }}</td>
+				<td>{{ resourse.CompanyID }}</td>
+				<td>{{ resourse.URL }}</td>
+				<td>{{ resourse.Name }}</td>
+            </tr>
+			{% endfor %}
+</table>
+Конкуренты
+ <table>
+ {% for сompetitor in сompetitors %}
+            <tr>
+				<td>{{ сompetitor.CompetitorID }}</td>
+				<td>{{ сompetitor.CompanyID }}</td>
+				<td>{{ сompetitor.URL }}</td>
+				<td>{{ сompetitor.Name }}</td>
+            </tr>
+			{% endfor %}
+</table>
+Ключевые фразы
+ <table>
+ {% for keyphrase in keyphrases %}
+            <tr>
+				<td>{{ keyphrase.KeyphraseID }}</td>
+				<td>{{ keyphrase.CompanyID }}</td>
+				<td>{{ keyphrase.Keyphrase }}</td>
+            </tr>
+			{% endfor %}
+</table>
+{% endblock %}		

@@ -1,0 +1,43 @@
+<html>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style.css')}}">
+<header> <h1> Регистрация </h1></header>
+	<table align="center">
+    <form action="/register" method="post">
+	
+        {{ form.hidden_tag() }}
+        <tr>
+            <td> Номер телефона</td>
+            <td>{{ form.number(style="width:100%;", size="25", class="forma") }}</td></tr>
+            {% for error in form.number.errors %}
+            <tr><td></td><td><span style="color: red;">{{ error }}</span></td></tr>
+            {% endfor %}
+        
+        <tr>
+            <td>Email</td>
+            <td>{{ form.email(style="width:100%;", size="25", class="forma") }}</td></tr>
+            {% for error in form.email.errors %}
+            <tr><td></td><td><span style="color: red;">{{ error }}</span></td></tr>
+            {% endfor %}
+        
+        <tr>
+            <td>Пароль</td>
+            <td>{{ form.passwd(style="width:100%;", size="25", class="forma") }}</td></tr>
+            {% for error in form.passwd.errors %}
+            <tr><td></td><td><span style="color: red;">{{ error }}</span></td></tr>
+            {% endfor %}
+        
+        <tr>
+            <td>Повторите пароль</td>
+            <td>{{ form.password2(style="width:100%;", size="25", class="forma") }}</td></tr>
+            {% for error in form.password2.errors %}
+            <tr><td></td><td><span style="color: red;">{{ error }}</span></td></tr>
+            {% endfor %}
+        
+        <tr>
+			<td></td>
+			<td>{{ form.submit(id="but", style="width:100%;") }}</td>
+		</tr>
+	    </form>
+		</table>
+</article> 
+</html>	
