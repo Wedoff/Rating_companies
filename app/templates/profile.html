@@ -1,0 +1,13 @@
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style1.css')}}">
+<header> <h1 class="select"> Объекты мониторинга </h1></header>
+<p class="select"> Выберите объект для просмотра результатов </p>
+<hr width="82%">
+ <table class="sel">
+ {% for company in companys %}
+            <tr>
+				<td>{{ company.Name }}</td>
+            </tr>
+			{% endfor %}
+</table>
+{% endblock %}		

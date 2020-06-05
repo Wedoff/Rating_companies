@@ -1,0 +1,45 @@
+<html>
+<meta charset = "utf-8">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style1.css')}}">
+<header> <h1 class="select"> Анализ инфополя </h1></header>
+<p class="select"> Дата формирования отчета </p>
+<p class="select"> Название компании </p>
+<hr width="82%">
+<p class="sel"> Всего упоминаний:  </p>
+<p class="select"> Тональность сообщений </p>
+<script src="https://www.google.com/jsapi"></script>
+  <script>
+   google.load("visualization", "1", {packages:["corechart"]});
+   google.setOnLoadCallback(drawChart);
+   function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+     ['Эмоциональная окраска', 'Объём'],
+     ['Нейтральная',     75.00],
+	 ['Негативная',    7.00],
+     ['Позитивная', 18.00]
+    ]);
+    var options = {
+     is3D: true,
+    };
+    var chart = new google.visualization.PieChart(document.getElementById('sms'));
+     chart.draw(data, options);
+   }
+ </script>
+<div id="sms" class="sell" style="width: 500px; height: 400px;"> </div>
+<p class="select"> Ключевые события </p>
+<table class="sel">
+<tr><td width="23%" class="istoch"> 
+<a href="prot2.html" class="ssilka"> Новость1 <br>          
+Источник: ссылка</a>
+</td>
+<td width="23%" class="istoch"> 
+<a href="https://bloggood.ru" class="ssilka"> Новость2 <br>
+Источник: ссылка</a>
+</td>
+<td width="23%" class="istoch"> 
+<a href="https://bloggood.ru" class="ssilka"> Новость3 <br>
+Источник: ссылка </a>
+</td>
+</tr>
+</table>
+</html>
