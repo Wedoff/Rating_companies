@@ -1,0 +1,179 @@
+.form-wrap {
+  width: 550px;
+  background: #ffd500;
+  border-radius: 20px;
+}
+/* для отчета*/
+.select {
+	font-weight: bolder; /* Жирное начертание */
+	margin-left: 10%;
+ }
+ .sel {
+	margin-left: 10%;
+	margin-right: 10%;
+ }
+ .sell {
+	margin-left: 7%;
+ }
+ .ssilka {
+/*border:1px solid #ccc; */
+text-decoration: none; 
+color: black;
+}
+
+ .istoch {
+	background:#eaeaea; 
+	border:1px solid #ccc;
+ }
+ 
+ 
+.form-wrap *{transition: .1s linear}
+.profile {
+  width: 240px;
+  float: left;
+  text-align: center;
+  padding: 30px;
+}
+table {
+	border-spacing:10px 1px;
+
+}
+#1, #2, #3 {
+	margin-top: 20%;
+}
+/*.param2 {
+	margin-top: 14%;	
+}
+.paramK2 {
+	margin-top: 7%;	
+} */
+form {
+  background: white;
+  float: left;
+  width: calc(100% - 240px);
+  padding: 0px; 
+  border-radius: 0 20px 20px 0;
+  color: #7b7b7b; 
+}
+
+.form-wrap:after, form div:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+form div {
+  margin-bottom: 15px;
+  position: relative;
+}
+h1 {
+  font-size: 24px;
+  font-weight: 400;
+  position: relative;
+  margin-top: 50px;
+  text-align:center;
+}
+/********************** стилизация элементов формы **********************/
+label, span {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.forma {
+  font-size: 14px;
+  margin-bottom: 8px;	
+  float: left;
+}
+input[type="text"], input[type="email"], input[type="password"] {
+  border-width: 0;
+  outline: none;
+  margin: 0;
+  width: 100%;
+  padding: 10px 15px;
+  background: #e6e6e6;
+}
+
+select {
+  width: 100%;
+  cursor: pointer;
+  padding: 10px 15px;
+  outline: 0;
+  border: 0;
+  background: #e6e6e6;
+  color: #7b7b7b;
+  -webkit-appearance: none; /*убираем галочку в webkit-браузерах*/
+  -moz-appearance: none; /*убираем галочку в Mozilla Firefox*/
+}
+select::-ms-expand {
+  display: none; /*убираем галочку в IE*/
+}
+.select-arrow {
+  position: absolute;
+  top: 38px;
+  right: 15px;
+  width: 0;
+  height: 0;
+  pointer-events: none; /*активизируем показ списка при нажатии на стрелку*/
+  border-style: solid;
+  border-width: 8px 5px 0 5px;
+  border-color: #7b7b7b transparent transparent transparent;
+}
+#form_status_addedK, #form_status_added, #form_status_addedf {
+	 padding: 10px 0;
+  border-width: 0;
+  display: block;
+  width: 70px;
+  margin: 25px auto 0;
+  background: #60e6c5;
+  color: white;
+  font-size: 10px;
+  outline: none;
+  text-transform: uppercase;
+  margin-left:0%;
+  margin-top:0%;
+}
+button {
+  padding: 10px 0;
+  border-width: 0;
+  display: block;
+  width: 120px;
+  margin: 25px auto 0;
+  background: #60e6c5;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  text-transform: uppercase;
+}
+
+#but {
+  padding: 10px 0;
+  border-width: 0;
+  display: block;
+  width: 215px;
+  margin: 25px auto 0;
+  background: #60e6c5;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  text-transform: uppercase;
+}
+
+
+#butt {
+  padding: 10px 0;
+  border-width: 0;
+  display: block;
+  margin: 25px auto 0;
+  background: #60e6c5;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  text-transform: uppercase;
+}
+/********************** добавляем форме адаптивность **********************/
+@media (max-width: 600px) {
+  .form-wrap {margin: 20px auto; max-width: 550px; width:100%;}
+  .profile, form {float: none; width: 100%;}
+  h1 {margin-top: auto; padding-bottom: 50px;}
+  form {border-radius: 0 0 20px 20px;}
+}
