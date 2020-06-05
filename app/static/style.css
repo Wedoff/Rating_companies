@@ -134,11 +134,19 @@ button {
   text-transform: uppercase;
 }
 
+.ots {
+	font-weight: bolder; /* Жирное начертание */
+	margin-left: 10%;
+ }
+ .otss {
+	margin-left: 10%;
+ }
 
 #butt {
   padding: 10px 0;
   border-width: 0;
   display: block;
+  width: 205px;
   margin: 25px auto 0;
   background: #60e6c5;
   color: white;
@@ -146,6 +154,7 @@ button {
   outline: none;
   text-transform: uppercase;
 }
+
 /********************** добавляем форме адаптивность **********************/
 @media (max-width: 600px) {
   .form-wrap {margin: 20px auto; max-width: 550px; width:100%;}
