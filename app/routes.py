@@ -23,20 +23,20 @@ from flask_paginate import Pagination,  get_page_parameter,  get_page_args
 
 @app.route('/company')
 def fun1():
-	#if current_user.is_authenticated:
-	#	return redirect('profile')
+	#if 'loggedin' in session:
+		#return redirect('profile')
 	return render_template('company.html')
 	
 @app.route('/login')
 def fun1start():
-	if current_user.is_authenticated:
+	if 'loggedin' in session:
 		return redirect('company')
 	return render_template('login.html')
 
 	
 @app.route('/index')
 def fun1start1():
-	if current_user.is_authenticated:
+	if 'loggedin' in session:
 		return redirect('company')
 	return render_template('index.html')
 
@@ -47,11 +47,15 @@ def funres():
 @app.route('/profile')
 @login_required
 def profile():
-#как вывести список компаний, которые ввел один пользователь, чтобы при нажатии на компанию выходила страница с результатами именно для нее????
-	if current_user.is_active:
-		id = db.session.query(User.UserID).filter(User.Email == current_user.Email)
-		c = db.session.query(Company.CompanyID, Company.Name).filter(Company.UserID == id).all()
-		return render_template('profile.html', companys = c)
+	if 'loggedin' in session:
+		con = mysql.connector.connect(user = 'root', password = 'KmddsjYYw34', host = '127.0.0.1', database = 'RC')
+		cursor = con.cursor()
+	
+		id = session['id']
+		cursor.execute('SELECT * name FROM company WHERE user_id = %s', (session['id'],))
+        company = cursor.fetchone()
+
+		return render_template('profile.html', companys = company)
 	else:
 		return redirect('login')
 	
@@ -85,19 +89,22 @@ def register():
 def fun2():
 	_username = request.form.get('user')
 	_password = request.form.get('pass')
+
+	if (_username is None) or (_password is None): return render_template('start.html', msg='Неверный ввод') 
 	
 	con = mysql.connector.connect(user = 'root', password = 'KmddsjYYw34', host = '127.0.0.1', database = 'RC')
 	cursor = con.cursor()
-
-	if (_username is None) or (_password is None): return render_template('start.html', msg='Неверный ввод') 
-	f = select top 1 user from users where email = _username
-	if f is None:
-		return render_template('login.html', msg='Неверный логин или пароль')
+	
+	cursor.execute('SELECT * FROM user WHERE email = %s AND password = %s', (_username, _password,))
+	account = cursor.fetchone()
+	if account:
+		# Create session data, we can access this data in other routes
+		session['loggedin'] = True
+		session['id'] = account['id']
+		session['username'] = account['username']
+		return redirect('company')
 	else:
-		if check_password_hash(f.password_hash, _password):
-			login_user(f)
-			return redirect('company')
-	return render_template('login.html', msg='Неверное имя или пароль')
+		return render_template('login.html', msg='Неверное имя или пароль')
 			
 	cursor.close()
 	con.close()
@@ -105,12 +112,12 @@ def fun2():
 @app.route('/registerr', methods=['POST'])
 @login_required
 def add_company():
-	connection = mysql.connector.connect(user = 'root', password = 'KmddsjYYw34', host = '127.0.0.1', database = 'RC')
-	cursor = connection.cursor()
-	
-	if current_user.is_authenticated:
-		id = db.session.query(User.UserID).filter(User.Email == current_user.Email) 
-		#как найти id юзера который сейчас авторизован, будет ли работать flask_login
+	if 'loggedin' in session:
+		
+		connection = mysql.connector.connect(user = 'root', password = 'KmddsjYYw34', host = '127.0.0.1', database = 'RC')
+		cursor = connection.cursor()
+		
+		id = session['id']
 		
 		insert_company = "INSERT INTO company(user_id, name, url, subject_area)  VALUES (%s, %s, %s, %s)"
 		cursor.execute(insert_company, (id, request.form['Name'], request.form['URL'], request.form['Subject']))
@@ -144,5 +151,7 @@ def add_company():
 
 @app.route('/logout')
 def logout():
- session.pop('user',None)
- return redirect('/login')
+	session.pop('loggedin', None)
+	session.pop('id', None)
+	session.pop('username', None)
+	return redirect('/login')
