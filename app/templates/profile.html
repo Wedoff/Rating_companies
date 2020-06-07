@@ -3,11 +3,19 @@
 <header> <h1 class="select"> Объекты мониторинга </h1></header>
 <p class="select"> Выберите объект для просмотра результатов </p>
 <hr width="82%">
+
+
  <table class="sel">
- {% for company in companys %}
+{%for i in range(0, len)%} 
             <tr>
-				<td>{{ company.Name }}</td>
+				<td>
+				<form action="/result" method="GET">
+				<input type="hidden" name="companyname" value="{{company[i][0]}}"/>
+				<button>{{ company[i][0] }}</button>
+				</form>
+				</td>
             </tr>
 			{% endfor %}
 </table>
-{% endblock %}		
+
+{% endblock %}
