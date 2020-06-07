@@ -3,7 +3,7 @@
 	{% if title %}
 	<title>{{ title }}</title>
     {% else %}
-	 <title>Welcome</title>
+	 <title>Создание учетной записи</title>
     {% endif %}
 </head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
@@ -27,16 +27,25 @@
 </script>
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style.css')}}">
 <meta charset="utf-8">
-<header> <h1> Создание учётной записи </h1></header>
-<table>
+<header> <h1 class='ots'> Создание учётной записи </h1></header>
+<table class='otss'>
+<tr>
 	<td>
 		<form class="forma" action="/logout" >
 			<button id="butt" type="submit"> Выйти </button></form>
 	</td>
-</table>	
-<fieldset>
+	<td>
+		<form class="forma" action="{{url_for('profile')}}" method="get">
+			<button id="butt" type="submit"> Просмотр результатов </button></form>
+	</td>
+<td>
+</td> 
+</tr>	
+</table>
+<p class='ots'> Заполните необходимые поля</p>
+<hr width="82%">
 <form action="/registerr" method="post">
-<table>
+<table class='otss'>
 <tr><td width="25%"> 
 	Название компании <br>
 	<input name="Name" type="text"  required><br><br>
@@ -61,10 +70,10 @@
 	Предметная область <br>
 	<select size="1" id="q11" name="Subject">
 		<option> Выберите предметную область </option>
-		<option>Авиакомпания</option>
-		<option>Недвижимость</option>
-		<option>Ресторан</option>
-		<option>Сеть магазинов</option></td>
+		<option value="1">Авиакомпания</option>
+		<option value="2">Недвижимость</option>
+		<option value="3">Ресторан</option>
+		<option value="4">Сеть магазинов</option></td>
 		</select> 
  </td>
 <td>
@@ -109,8 +118,7 @@
 </td>
 <td valign="top" > <p id="1"><br> Укажите адреса и названия основных конкурентах.</p></td></tr>
 </table>
-</fieldset>
-<table>
+<table class='otss'>
 <tr><td>
 <button type="submit">Отправить</button> 
 </td>
