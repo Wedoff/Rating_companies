@@ -39,23 +39,24 @@ def fun1start1():
 	if 'loggedin' in session:
 		return redirect('company')
 	return render_template('index.html')
-
+	
 @app.route('/result')
 def funres():
 	return render_template('result.html')
 	
 @app.route('/profile')
-@login_required
 def profile():
 	if 'loggedin' in session:
 		con = mysql.connector.connect(user = 'root', password = 'KmddsjYYw34', host = '127.0.0.1', database = 'RC')
 		cursor = con.cursor()
-	
+    
 		id = session['id']
-		cursor.execute('SELECT * name FROM company WHERE user_id = %s', (session['id'],))
-        company = cursor.fetchone()
-
-		return render_template('profile.html', companys = company)
+		cursor.execute('SELECT name FROM company WHERE user_id = %(n)s', { 'n': session['id'] })
+		company = cursor.fetchone()
+    
+		print(company)
+    
+		return render_template('profile.html', len = len(c), company = company)
 	else:
 		return redirect('login')
 	
@@ -68,46 +69,49 @@ def fun1bd():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-  connection = mysql.connector.connect(user = 'root', password = 'KmddsjYYw34', host = '127.0.0.1', database = 'RC')
-  cursor = connection.cursor()
+	connection = mysql.connector.connect(user = 'root', password = 'KmddsjYYw34', host = '127.0.0.1', database = 'RC')
+	cursor = connection.cursor()
 
-  if (current_user.is_authenticated):
-    return redirect('company') #если пользователь уже зашел, то переход на стр личного кабинета (company)
+	if (current_user.is_authenticated):
+		return redirect('company') #если пользователь уже зашел, то переход на стр личного кабинета (company)
 
-  form = RegistrationForm()
-  if form.validate_on_submit():
-    insert_user = "INSERT INTO user(email, phone, password) VALUES (%s, %s, %s)"
-    cursor.execute(insert_user, (form.email.data, form.number.data, generate_password_hash(form.passwd.data)))
-    connection.commit()
-    cursor.close()
-    connection.close()
-    flash('Регистрация прошла успешно')
-    return redirect('/login') #перенаправление на вход в личный кабинет
-  return render_template('register.html', title='Регистрация', form=form)
+	form = RegistrationForm()
+	if form.validate_on_submit():
+		insert_user = "INSERT INTO user(email, phone, password) VALUES (%s, %s, %s)"
+		cursor.execute(insert_user, (form.email.data, form.number.data, generate_password_hash(form.passwd.data)))
+		connection.commit()
+		cursor.close()
+		connection.close()
+		flash('Регистрация прошла успешно')
+		return redirect('/login') #перенаправление на вход в личный кабинет
+	return render_template('register.html', title='Регистрация', form=form)
 	
 @app.route('/log',methods=['POST'])
 def fun2():
-	_username = request.form.get('user')
-	_password = request.form.get('pass')
+  _username = request.form.get('user')
+  _password = request.form.get('pass')
+  print(_username, _password)
+  
+  if (_username is None) or (_password is None): return render_template('start.html', msg='Неверный ввод') 
+  
+  con = mysql.connector.connect(user = 'root', password = 'KmddsjYYw34', host = '127.0.0.1', database = 'RC')
+  cursor = con.cursor()
+  test = 'SELECT id, email FROM user WHERE email = %(n)s'
+  
+  cursor.execute(test, { 'n': _username })
+  account = cursor.fetchone()
 
-	if (_username is None) or (_password is None): return render_template('start.html', msg='Неверный ввод') 
-	
-	con = mysql.connector.connect(user = 'root', password = 'KmddsjYYw34', host = '127.0.0.1', database = 'RC')
-	cursor = con.cursor()
-	
-	cursor.execute('SELECT * FROM user WHERE email = %s AND password = %s', (_username, _password,))
-	account = cursor.fetchone()
-	if account:
-		# Create session data, we can access this data in other routes
-		session['loggedin'] = True
-		session['id'] = account['id']
-		session['username'] = account['username']
-		return redirect('company')
-	else:
-		return render_template('login.html', msg='Неверное имя или пароль')
-			
-	cursor.close()
-	con.close()
+  if account:
+    # Create session data, we can access this data in other routes
+    session['loggedin'] = True
+    session['id'] = account[0]
+    session['username'] = account[1]
+    return redirect('company')
+  else:
+    return render_template('login.html', msg='Неверное имя или пароль')
+    
+  cursor.close()
+  con.close()
 	
 @app.route('/registerr', methods=['POST'])
 @login_required
@@ -124,7 +128,7 @@ def add_company():
        
 		#idr = db.session.query(Company.CompanyID).filter(Company.Name == request.form['Name'], Company.UserID == id, Company.URL == request.form['URL'], Company.Subject == request.form['Subject'])
 		
-		idr = SELECT IDENT_CURRENT('company') AS [IDENT_CURRENT]
+		idr = cursor.lastrowid
 		#поиск последней добавленной компании
 		
 		insert_resourse = "INSERT INTO resourse(company_id, url, name)  VALUES (%s, %s, %s)"
