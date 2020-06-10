@@ -3,6 +3,7 @@ import re
 import smtplib
 import random
 import datetime
+import operator
 import mysql.connector
 from mysql.connector import Error
 from mysql.connector import errorcode
@@ -40,12 +41,58 @@ def fun1start1():
 		return redirect('company')
 	return render_template('index.html')
 	
-@app.route('/result')
+@app.route('/result', methods=['POST'])
 def funres():
-	return render_template('result.html')
+	if 'loggedin' in session:
+		#список + коммент
+		pol_emot=[]
+		#список - коммент
+		otr_emot=[]
+		#список нейтр коммент
+		net_enot=[]
+		lencomfornews={}
+		
+		cn = request.form['companyname']
+		con = mysql.connector.connect(user = 'root', password = 'KmddsjYYw34', host = '127.0.0.1', database = 'RC')
+		cursor = con.cursor()
+		
+		#поиск новостей с упоминанием компании
+		cursor.execute('SELECT name_id FROM entites WHERE value like = %(n)s', { 'n': cn })
+		companys = cursor.fetchone()
+		
+		#для каждой новости ищем комментарии
+		for i in range(0, len(companys)):
+			cursor.execute('SELECT id FROM comments WHERE news_ id = %(n)s', { 'n': companys[i] })
+			idcom = cursor.fetchone()
+			#число комментариев для конкретной новости в виде словаря
+			lencomfornews[companys[i]] = len(idcom)
+			#просмотр эмоц. окраски для каждого комментария
+			for j in range(0,len(idcom)):
+				cursor.execute('SELECT emotional_coloring_id FROM analyzed_comments WHERE comment_id = %(n)s', { 'n': idcom[i] })
+				emot=cursor.fetchone()
+				if emot > 0:
+					pol_emot=pol_emot.append(emot)
+				if emot < 0:
+					otr_emot=otr_emot.append(emot)
+				if emot = 0:
+					net_enot=net_enot.append(emot)
+		#сортировка словаря по числу комментариев от мин к макс
+		b=sorted(lencomfornews.items(),key = operator.itemgetter(1))	
+		#cписок id новостей по убываю числа комметариев к ней
+		for i in reversed(b):
+			cursor.execute('SELECT news_header,sourse_id FROM news WHERE id = %(n)s', { 'n': b[0]})
+			companysnews = cursor.fetchone()
+		
+		#??? как вывести источник, для 6 самых обсуждаемых новостей 
+		cursor.close()
+		con.close()		
+		
+		return render_template('result.html', companyname = cn, len = len(companys), companysnews, pol = len(pol_emot), net = len(net_enot), otr = len(otr_emot))
+	else:
+		return redirect('login')
 	
 @app.route('/profile')
-def profile():
+def profile():,
 	if 'loggedin' in session:
 		con = mysql.connector.connect(user = 'root', password = 'KmddsjYYw34', host = '127.0.0.1', database = 'RC')
 		cursor = con.cursor()
@@ -55,7 +102,9 @@ def profile():
 		company = cursor.fetchone()
     
 		print(company)
-    
+		cursor.close()
+		con.close()
+		
 		return render_template('profile.html', len = len(c), company = company)
 	else:
 		return redirect('login')
@@ -126,8 +175,6 @@ def add_company():
 		insert_company = "INSERT INTO company(user_id, name, url, subject_area)  VALUES (%s, %s, %s, %s)"
 		cursor.execute(insert_company, (id, request.form['Name'], request.form['URL'], request.form['Subject']))
        
-		#idr = db.session.query(Company.CompanyID).filter(Company.Name == request.form['Name'], Company.UserID == id, Company.URL == request.form['URL'], Company.Subject == request.form['Subject'])
-		
 		idr = cursor.lastrowid
 		#поиск последней добавленной компании
 		
@@ -146,12 +193,13 @@ def add_company():
 		insert_keyphrase = "INSERT INTO keyphrase(company_id, keyphrase)  VALUES (%s, %s])"
 		cursor.execute(insert_keyphrase, (idr, request.form['Keyphrases']))
 		connection.commit()
+		cursor.close()
+		connection.close()
 	
 		return redirect('/profile')
 	else:
 		redirect('/login')
-	cursor.close()
-	connection.close()
+
 
 @app.route('/logout')
 def logout():
