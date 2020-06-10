@@ -2,11 +2,25 @@
 <meta charset = "utf-8">
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style1.css')}}">
 <header> <h1 class="select"> Анализ инфополя </h1></header>
-<p class="select"> Дата формирования отчета </p>
+
+
+<p class="select"> Дата формирования отчета:
+<script language="javascript" type="text/javascript"><!--
+var d = new Date();
+
+var month=new Array("января","февраля","марта","апреля","мая","июня",
+"июля","августа","сентября","октября","ноября","декабря");
+
+document.write(d.getDate()+ " " + month[d.getMonth()]
++ " " + d.getFullYear() + " г.");
+//--></script></p>
 <p class="select"> Название компании:"{{companyname}}" </p>
 <hr width="82%">
-<p class="sel"> Всего упоминаний:  </p>
+<p class="sel"> Всего упоминаний:"{{len}}"  </p>
 <p class="select"> Тональность сообщений </p>
+<p class="select">Положительных комментариев:"{{pol}}"</p>
+<p class="select">Неайтральных комментариев:"{{net}}"</p>
+<p class="select">Негативных комментариев:"{{otr}}"</p>
 <script src="https://www.google.com/jsapi"></script>
   <script>
    google.load("visualization", "1", {packages:["corechart"]});
@@ -29,15 +43,28 @@
 <p class="select"> Ключевые события </p>
 <table class="sel">
 <tr><td width="23%" class="istoch"> 
-<a href="prot2.html" class="ssilka"> Новость1 <br>          
+<a href="prot2.html" class="ssilka">{{ companysnews[0][0]}} <br>          
 Источник: ссылка</a>
 </td>
 <td width="23%" class="istoch"> 
-<a href="https://bloggood.ru" class="ssilka"> Новость2 <br>
+<a href="https://bloggood.ru" class="ssilka"> {{ companysnews[1][0]}}  <br>
 Источник: ссылка</a>
 </td>
 <td width="23%" class="istoch"> 
-<a href="https://bloggood.ru" class="ssilka"> Новость3 <br>
+<a href="https://bloggood.ru" class="ssilka"> {{ companysnews[2][0]}}  <br>
+Источник: ссылка </a>
+</td>
+</tr>
+<tr><td width="23%" class="istoch"> 
+<a href="prot2.html" class="ssilka"> {{ companysnews[3][0]}}  <br>          
+Источник: ссылка</a>
+</td>
+<td width="23%" class="istoch"> 
+<a href="https://bloggood.ru" class="ssilka"> {{ companysnews[4][0]}}  <br>
+Источник: ссылка</a>
+</td>
+<td width="23%" class="istoch"> 
+<a href="https://bloggood.ru" class="ssilka"> {{ companysnews[5][0]}}  <br>
 Источник: ссылка </a>
 </td>
 </tr>
